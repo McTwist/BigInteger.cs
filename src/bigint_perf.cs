@@ -2,7 +2,7 @@
 
 exec("./bigint.cs");
 
-function bigintpref_add()
+function bigintperf_add()
 {
 	%amount = 16384;
 
@@ -37,7 +37,7 @@ function bigintpref_add()
 	echo("100 digits: " @ %time @ "ms  avg: " @ (%time / %amount) @ "ms");
 }
 
-function bigintpref_add2()
+function bigintperf_add2()
 {
 	%amount = 16384;
 
@@ -90,7 +90,7 @@ function bigintpref_add2()
 	echo("100 digits: " @ %time @ "ms  avg: " @ (%time / %amount) @ "ms");
 }
 
-function bigintpref_subtract()
+function bigintperf_subtract()
 {
 	%amount = 16384;
 
@@ -125,7 +125,7 @@ function bigintpref_subtract()
 	echo("100 digits: " @ %time @ "ms  avg: " @ (%time / %amount) @ "ms");
 }
 
-function bigintpref_subtract2()
+function bigintperf_subtract2()
 {
 	%amount = 16384;
 
@@ -178,7 +178,7 @@ function bigintpref_subtract2()
 	echo("100 digits: " @ %time @ "ms  avg: " @ (%time / %amount) @ "ms");
 }
 
-function bigintpref_multiply()
+function bigintperf_multiply()
 {
 	%amount = 16384;
 
@@ -214,7 +214,7 @@ function bigintpref_multiply()
 	echo("100 digits: " @ %time @ "ms  avg: " @ (%time / %amount) @ "ms");
 }
 
-function bigintpref_multiply2()
+function bigintperf_multiply2()
 {
 	%amount = 16384;
 
@@ -268,7 +268,7 @@ function bigintpref_multiply2()
 	echo("100 digits: " @ %time @ "ms  avg: " @ (%time / %amount) @ "ms");
 }
 
-function bigintpref_div()
+function bigintperf_div()
 {
 	%amount = 16384;
 
@@ -304,7 +304,7 @@ function bigintpref_div()
 	echo("100 digits: " @ %time @ "ms  avg: " @ (%time / %amount) @ "ms");
 }
 
-function bigintpref_div2()
+function bigintperf_div2()
 {
 	%amount = 16384;
 
@@ -358,27 +358,27 @@ function bigintpref_div2()
 	echo("100 digits: " @ %time @ "ms  avg: " @ (%time / %amount) @ "ms");
 }
 
-function bigintpref_all()
+function bigintperf_all()
 {
 	echo("All do 16 384 iterations");
 	echo("");
 	echo("Add with strings");
-	bigintpref_add();
+	bigintperf_add();
 	echo("Add without strings");
-	bigintpref_add2();
+	bigintperf_add2();
 	echo("");
 	echo("Subtract with strings");
-	bigintpref_subtract();
+	bigintperf_subtract();
 	echo("Subtract without strings");
-	bigintpref_subtract2();
+	bigintperf_subtract2();
 	echo("");
 	echo("Multiply with strings (last does 2 048)");
-	bigintpref_multiply();
+	bigintperf_multiply();
 	echo("Multiply without strings (last does 2 048)");
-	bigintpref_multiply2();
+	bigintperf_multiply2();
 	echo("");
 	echo("Div with strings (last does 2 048)");
-	bigintpref_div();
+	bigintperf_div();
 	echo("Div without strings (last does 2 048)");
-	bigintpref_div2();
+	bigintperf_div2();
 }
