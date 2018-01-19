@@ -55,6 +55,32 @@ function bigint__addAny(%a, %b)
 	return (%a.length() >= %b.length()) ? bigint__add(%a, %b) : bigint__add(%b, %a);
 }
 
+// Add one array an a carry together
+function bigint__addSmall(%a, %carry)
+{
+	%l = %a.length();
+	%r = Array();
+
+	%base = $bigint::base;
+
+	for (%i = 0; %i < %l; %i++)
+	{
+		%sum = %a.get(%i) - %base + %carry;
+		%carry = mFloor(%sum / %base);
+		%r.set(%i, %sum - %carry * %base);
+		%carry++;
+	}
+
+	while (%carry > 0)
+	{
+		%r.set(%i, %carry % %base);
+		%i++;
+		%carry = mFloor(%sum / %base);
+	}
+
+	return %r;
+}
+
 // Subtract two arrays, a.length >= b.length
 function bigint__subtract(%a, %b)
 {
@@ -121,28 +147,24 @@ function bigint__subtractAny(%a, %b)
 	return %value;
 }
 
-// Multiply one array and a small number
-function bigint__multiplySmall(%a, %b)
+// Subtract one array with an another value
+function bigint__subtractSmall(%a, %b)
 {
 	%l = %a.length();
-	%r = Array();
-	%r.resize(%l);
-	%carry = 0;
+	%a = Array();
+	%carry = -%b;
 
 	%base = $bigint::base;
 
 	for (%i = 0; %i < %l; %i++)
 	{
-		%product = %a.get(%i) * %b + %carry;
-		%carry = mFloor(%product / %base);
-		%r.set(%i, %product - %carry * %base);
+		%difference = %a.get(%i) + %carry;
+		%carry = mFloor(%difference / %base);
+		%difference %= %base;
+		%r.set(%i, %difference < 0 ? %difference + %base : %difference);
 	}
-	while (%carry > 0)
-	{
-		%r.push(%carry % %base);
-		%i++;
-		%carry = mFloor(%carry / %base);
-	}
+
+	bigint__trim(%r);
 
 	return %r;
 }
@@ -171,6 +193,32 @@ function bigint__multiplyLong(%a, %b)
 		}
 	}
 	bigint__trim(%r);
+	return %r;
+}
+
+// Multiply one array and a small number
+function bigint__multiplySmall(%a, %b)
+{
+	%l = %a.length();
+	%r = Array();
+	%r.resize(%l);
+	%carry = 0;
+
+	%base = $bigint::base;
+
+	for (%i = 0; %i < %l; %i++)
+	{
+		%product = %a.get(%i) * %b + %carry;
+		%carry = mFloor(%product / %base);
+		%r.set(%i, %product - %carry * %base);
+	}
+	while (%carry > 0)
+	{
+		%r.push(%carry % %base);
+		%i++;
+		%carry = mFloor(%carry / %base);
+	}
+
 	return %r;
 }
 
@@ -271,6 +319,27 @@ function bigint__divMod(%a, %b)
 
 	$bigint::_remainder = %part;
 	return %result;
+}
+
+// Divide an array with a lambda
+function bigint__divModSmall(%value, %lambda)
+{
+	%l = %value.length();
+	%quotient = bigint__createArray(%length);
+	%remainder = 0;
+
+	%base = $bigint::base;
+
+	for (%i = %length - 1; %i >= 0; %i--)
+	{
+		%divisor = %remainder * %base + %value.get(%i);
+		%q = bigint__truncate(%divisor / %lambda);
+		%remainder = %divisor - %q * %lambda;
+		%quotient.set(%i, %q | 0);
+	}
+
+	$bigint::remainder = %remainder | 0;
+	return %quotient;
 }
 
 // Shift an array to the left
