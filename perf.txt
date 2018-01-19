@@ -1,0 +1,37 @@
+All iterates 16,384 times each
+
+Add with strings
+500 + 150:    9,600ms  avg: 0.585938ms
+1500 + 2500: 10,240ms  avg: 0.625ms
+100 digits:  33,344ms  avg: 2.03516ms
+Add without strings
+500 + 150:    4,640ms  avg: 0.283203ms
+1500 + 2500:  4,864ms  avg: 0.296875ms
+100 digits:  12,640ms  avg: 0.771484ms
+
+Subtract with strings
+500 - 150:   10,048ms  avg: 0.613281ms
+1500 - 2500: 10,784ms  avg: 0.658203ms
+100 digits:  34,208ms  avg: 2.08789ms
+Subtract without strings
+500 - 150:    5,056ms  avg: 0.308594ms
+1500 - 2500:  5,344ms  avg: 0.326172ms
+100 digits:  12,960ms  avg: 0.791016ms
+
+Multiply with strings (last does 2,048 times)
+500 * 150:   11,296ms  avg: 0.689453ms
+1500 * 2500: 13,344ms  avg: 0.814453ms
+100 digits:  68,800ms  avg: 33.5938ms
+Multiply without strings (last does 2,048 times)
+500 * 150:    6,048ms  avg: 0.369141ms
+1500 * 2500:  7,712ms  avg: 0.470703ms
+100 digits:  66,880ms  avg: 32.6563ms
+
+Divide with strings (last does 2,048 times)
+500 / 150:   28,448ms  avg: 1.73633ms
+1500 / 2500: 16,704ms  avg: 1.01953ms
+100 digits:  12,608ms  avg: 6.15625ms
+Divide without strings (last does 2,048 time)
+500 / 150:   24,832ms  avg: 1.51563ms
+1500 / 2500: 12,992ms  avg: 0.792969ms
+100 digits:  10,336ms  avg: 5.04688ms
