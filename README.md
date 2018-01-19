@@ -30,7 +30,7 @@ The other way is through the `BigInt` namespace. This keeps track on the interna
 
 ## Performance
 
-The performance can be read in [pref.txt](pref.txt).
+The performance can be read in [perf.txt](perf.txt).
 
 ## Credits
 
