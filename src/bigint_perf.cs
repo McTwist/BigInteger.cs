@@ -360,7 +360,7 @@ function bigintperf_div2()
 
 function bigintperf_all()
 {
-	echo("All do 16 384 iterations");
+	echo("All iterates 16,384 times each");
 	echo("");
 	echo("Add with strings");
 	bigintperf_add();
@@ -372,13 +372,13 @@ function bigintperf_all()
 	echo("Subtract without strings");
 	bigintperf_subtract2();
 	echo("");
-	echo("Multiply with strings (last does 2 048)");
+	echo("Multiply with strings (last does 2,048 times)");
 	bigintperf_multiply();
-	echo("Multiply without strings (last does 2 048)");
+	echo("Multiply without strings (last does 2,048 times)");
 	bigintperf_multiply2();
 	echo("");
-	echo("Div with strings (last does 2 048)");
+	echo("Div with strings (last does 2,048 times)");
 	bigintperf_div();
-	echo("Div without strings (last does 2 048)");
+	echo("Div without strings (last does 2,048 times)");
 	bigintperf_div2();
 }
