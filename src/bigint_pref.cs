@@ -361,20 +361,24 @@ function bigintpref_div2()
 function bigintpref_all()
 {
 	echo("All do 16 384 iterations");
-	echo("add with strings");
+	echo("");
+	echo("Add with strings");
 	bigintpref_add();
-	echo("add without strings");
+	echo("Add without strings");
 	bigintpref_add2();
-	echo("subtract with strings");
+	echo("");
+	echo("Subtract with strings");
 	bigintpref_subtract();
-	echo("subtract without strings");
+	echo("Subtract without strings");
 	bigintpref_subtract2();
-	echo("multiply with strings (last does 2 048)");
+	echo("");
+	echo("Multiply with strings (last does 2 048)");
 	bigintpref_multiply();
-	echo("multiply without strings (last does 2 048)");
+	echo("Multiply without strings (last does 2 048)");
 	bigintpref_multiply2();
-	echo("div with strings (last does 2 048)");
+	echo("");
+	echo("Div with strings (last does 2 048)");
 	bigintpref_div();
-	echo("div without strings (last does 2 048)");
+	echo("Div without strings (last does 2 048)");
 	bigintpref_div2();
 }
