@@ -21,6 +21,8 @@ $bigint::base = 1000;
 // Add two arrays together, a.length >= b.length
 function bigint__add(%a, %b)
 {
+	// if a.toString() = 1234, then a = [234, 1]
+	// if b.toString() = 999, then b = [999]
 	%a_l = %a.length();
 	%b_l = %b.length();
 	%r = Array();
@@ -32,20 +34,38 @@ function bigint__add(%a, %b)
 	for (%i = 0; %i < %b_l; %i++)
 	{
 		%sum = %a.get(%i) + %b.get(%i) + %carry;
+			// %sum = %a.get(0) + %b.get(0) + %carry;
+			// %sum = 234 + 999 + 0;
+			// %sum = 1233;
 		%carry = (%sum >= %base) ? 1 : 0;
+			// %carry = (1233 >= 1000) ? 1 : 0;
+			// %carry = 1;
 		%r.set(%i, %sum - %carry * %base);
+			// %r.set(0, 1233 - 1 * 1000);
+			// %r.set(0, 1233 - (1 * 1000));
+			// %r.set(0, 233);
 	}
 
-	while (%i < %a_l)
+	while (%i < %a_l) // in TorqueScript, %i resumes where it was in previous for loop
 	{
+			// %i = 1;
 		%sum = %a.get(%i) + %carry;
+			// %sum = %a.get(1) + 1;
+			// %sum = 1 + 1;
+			// %sum = 2;
 		%carry = (%sum == %base) ? 1 : 0;
+			// %carry = (2 == 1000) ? 1 : 0;
+			// %carry = 0;
 		%r.set(%i, %sum - %carry * %base);
+			// %r.set(1, 2 - 0 * 1000);
+			// %r.set(1, 2 - (0 * 1000));
+			// %r.set(1, 2 - 0);
+			// %r.set(1, 2);
 		%i++;
 	}
 
 	if (%carry > 0)
-		%r.push(%carry);
+		%r.push(%carry); // add carry to end of new BigNum's array
 	return %r;
 }
 
