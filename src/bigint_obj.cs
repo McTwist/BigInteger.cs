@@ -42,16 +42,17 @@ function BigInt::add(%this, %v)
 {
 	%a = %this.value;
 	%b = %v.value;
-	if (%a.sign != %b.sign)
-	{
-		%b.sign = !%b.sign;
-		%value = bigint__subtract(%a, %b);
-		%b.sign = !%b.sign;
-	}
-	else
-	{
-		%value = bigint__addAny(%a, %b);
-	}
+	// if (%a.sign != %b.sign)
+	// {
+	// 	%b.sign = !%b.sign;
+	// 	%value = bigint__subtract(%a, %b);
+	// 	%b.sign = !%b.sign;
+	// }
+	// else
+	// {
+	// 	%value = bigint__addAny(%a, %b);
+	// }
+	%value = bigint__addAny(%a, %b);
 
 	return BigInt("", %value);
 }
@@ -59,18 +60,19 @@ function BigInt::add(%this, %v)
 // Subtract two integers
 function BigInt::subtract(%this, %v)
 {
-	%a = %this.value;
-	%b = %v.value;
-	if (%a.sign != %b.sign)
-	{
-		%b.sign = !%b.sign;
-		%value = bigint__add(%a, %b);
-		%b.sign = !%b.sign;
-	}
-	else
-	{
-		%value = bigint__subtract(%a, %b);
-	}
+	// %a = %this.value;
+	// %b = %v.value;
+	// if (%a.sign != %b.sign)
+	// {
+	// 	%b.sign = !%b.sign;
+	// 	%value = bigint__addAny(%a, %b);
+	// 	%b.sign = !%b.sign;
+	// }
+	// else
+	// {
+	// 	%value = bigint__subtract(%a, %b);
+	// }
+	%value = bigint__subtractAny(%a, %b);
 
 	return BigInt("", %value);
 }
