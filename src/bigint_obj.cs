@@ -46,6 +46,7 @@ function BigInt::add(%this, %v)
 	{
 		%b.sign = !%b.sign;
 		%value = bigint__subtract(%a, %b);
+		%b.sign = !%b.sign;
 	}
 	else
 	{
@@ -64,6 +65,7 @@ function BigInt::subtract(%this, %v)
 	{
 		%b.sign = !%b.sign;
 		%value = bigint__add(%a, %b);
+		%b.sign = !%b.sign;
 	}
 	else
 	{
@@ -113,4 +115,30 @@ function BigInt::divmod(%this, %v)
 function BigInt::toString(%this)
 {
 	return bigint__toString(%this.value);
+}
+
+// Integer comparison
+function BigInt::equals(%this, %v)
+{
+	return bigint_equal(%this.value, %v.value);
+}
+
+function BigInt::greaterThanOrEqualTo(%this, %v)
+{
+	return bigint_greaterequal(%this.value, %v.value);
+}
+
+function BigInt::greaterThan(%this, %v)
+{
+	return bigint_greater(%this.value, %v.value);
+}
+
+function BigInt::lessThanOrEqualTo(%this, %v)
+{
+	return bigint_lesserequal(%this.value, %v.value);
+}
+
+function BigInt::lessThan(%this, %v)
+{
+	return bigint_lesser(%this.value, %v.value);
 }
