@@ -1,0 +1,3 @@
+Title: Server_BigInteger
+Author: McTwist, Permamiss
+Intended for operations done with numbers above the 32-bit integer limit by creating fake big numbers with arrays.

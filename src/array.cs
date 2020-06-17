@@ -7,7 +7,7 @@
 
 
 // Create new Array object to add items to
-// Argument is an another Array that will be copied over
+// Argument is another Array that will be copied over
 function Array(%copy)
 {
 	%array = new ScriptObject()

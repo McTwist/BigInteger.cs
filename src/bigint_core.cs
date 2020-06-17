@@ -18,9 +18,11 @@ exec("./uint.cs");
 // Either use uint library or manually code in the base for each arithmetic
 $bigint::base = 1000;
 
-// Add two arrays together, a.length >= b.length
+// Add two arrays together, a.length >= b.length, only to be used with same-signed ints
 function bigint__add(%a, %b)
 {
+	// if a.toString() = 1234, then a = [234, 1]
+	// if b.toString() = 999, then b = [999]
 	%a_l = %a.length();
 	%b_l = %b.length();
 	%r = Array();
@@ -32,20 +34,39 @@ function bigint__add(%a, %b)
 	for (%i = 0; %i < %b_l; %i++)
 	{
 		%sum = %a.get(%i) + %b.get(%i) + %carry;
+			// %sum = %a.get(0) + %b.get(0) + %carry;
+			// %sum = 234 + 999 + 0;
+			// %sum = 1233;
 		%carry = (%sum >= %base) ? 1 : 0;
+			// %carry = (1233 >= 1000) ? 1 : 0;
+			// %carry = 1;
 		%r.set(%i, %sum - %carry * %base);
+			// %r.set(0, 1233 - 1 * 1000);
+			// %r.set(0, 1233 - (1 * 1000));
+			// %r.set(0, 233);
 	}
 
-	while (%i < %a_l)
+	while (%i < %a_l) // in TorqueScript, %i resumes where it was in previous for loop
 	{
+			// %i = 1;
 		%sum = %a.get(%i) + %carry;
+			// %sum = %a.get(1) + 1;
+			// %sum = 1 + 1;
+			// %sum = 2;
 		%carry = (%sum == %base) ? 1 : 0;
+			// %carry = (2 == 1000) ? 1 : 0;
+			// %carry = 0;
 		%r.set(%i, %sum - %carry * %base);
+			// %r.set(1, 2 - 0 * 1000);
+			// %r.set(1, 2 - (0 * 1000));
+			// %r.set(1, 2 - 0);
+			// %r.set(1, 2);
 		%i++;
 	}
+		// %r = [233, 2]; r.toString() = 2233
 
 	if (%carry > 0)
-		%r.push(%carry);
+		%r.push(%carry); // add carry to end of new BigNum's array
 	return %r;
 }
 
@@ -84,6 +105,7 @@ function bigint__addSmall(%a, %carry)
 // Subtract two arrays, a.length >= b.length
 function bigint__subtract(%a, %b)
 {
+	
 	%a_l = %a.length();
 	%b_l = %b.length();
 	%r = Array();
@@ -355,7 +377,7 @@ function bigint__shiftLeft(%x, %n)
 }
 
 // Compare two arrays, ignoring sign
-function bigint__compareAbs(%a, %b)
+function bigint__compareAbs(%a, %b) // if |a| > |b| return 1, |a| < |b| return -1, else return 0
 {
 	if (%a.length() != %b.length())
 		return %a.length() > %b.length() ? 1 : -1;
@@ -398,7 +420,11 @@ function bigint__parseValue(%v)
 	%r = Array();
 
 	%sign = getSubStr(%v, 0, 1) $= "-";
-	if (%sign) %v = getSubStr(%v, 1, strlen(%v));
+	if (%sign)
+	{
+		%v = getSubStr(%v, 1, strlen(%v));
+		%l--;
+	}
 	%r.sign = %sign;
 	// Note: No checks for exponent or decimals
 
