@@ -18,7 +18,7 @@ exec("./uint.cs");
 // Either use uint library or manually code in the base for each arithmetic
 $bigint::base = 1000;
 
-// Add two arrays together, a.length >= b.length
+// Add two arrays together, a.length >= b.length, only to be used with same-signed ints
 function bigint__add(%a, %b)
 {
 	// if a.toString() = 1234, then a = [234, 1]
@@ -63,6 +63,7 @@ function bigint__add(%a, %b)
 			// %r.set(1, 2);
 		%i++;
 	}
+		// %r = [233, 2]; r.toString() = 2233
 
 	if (%carry > 0)
 		%r.push(%carry); // add carry to end of new BigNum's array
@@ -104,6 +105,7 @@ function bigint__addSmall(%a, %carry)
 // Subtract two arrays, a.length >= b.length
 function bigint__subtract(%a, %b)
 {
+	
 	%a_l = %a.length();
 	%b_l = %b.length();
 	%r = Array();
@@ -375,7 +377,7 @@ function bigint__shiftLeft(%x, %n)
 }
 
 // Compare two arrays, ignoring sign
-function bigint__compareAbs(%a, %b)
+function bigint__compareAbs(%a, %b) // if |a| > |b| return 1, |a| < |b| return -1, else return 0
 {
 	if (%a.length() != %b.length())
 		return %a.length() > %b.length() ? 1 : -1;
@@ -418,7 +420,11 @@ function bigint__parseValue(%v)
 	%r = Array();
 
 	%sign = getSubStr(%v, 0, 1) $= "-";
-	if (%sign) %v = getSubStr(%v, 1, strlen(%v));
+	if (%sign)
+	{
+		%v = getSubStr(%v, 1, strlen(%v));
+		%l--;
+	}
 	%r.sign = %sign;
 	// Note: No checks for exponent or decimals
 
