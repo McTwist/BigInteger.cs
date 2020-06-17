@@ -59,10 +59,13 @@ function bigint_subtract(%a, %b)
 
 	%a = bigint__parseValue(%a);
 	%b = bigint__parseValue(%b);
-	if (%a.sign != %b.sign)
+	//if (%a.sign != %b.sign)
+	if (!%a.sign && %b.sign) // if a is positive and b is negative
 	{
 		%b.sign = !%b.sign;
-		%value = bigint__add(%a, %b);
+		//%value = bigint__add(%a, %b);
+		%value = bigint__addAny(%a, %b);
+		%b.sign = !%b.sign;
 	}
 	else
 	{
@@ -145,4 +148,83 @@ function bigint_divmod(%a, %b)
 	%value.delete();
 	$bigint::_remainder.delete();
 	return %ret;
+}
+
+function bigint_equal(%a, %b)
+{
+	return (%a.sign == %b.sign && bigint__compareAbs(%a, %b) == 0); // compareAbs returns 0 if they are equal but ignores sign, which is why I also compare signs here
+}
+
+function bigint_greaterequal(%a, %b)
+{
+	//if (!%a.sign && %b.sign)
+	//	return true;
+	if (%a.length() > %b.length())
+		return true;
+	if (%a.length() < %b.length())
+		return false;
+	%isGreaterEqual = true;
+	for (%i = %a.length() - 1; %i >= 0; %i--)
+	{
+		%valA = %a.get(%i) * (%a.sign ? -1 : 1);
+		%valB = %b.get(%i) * (%b.sign ? -1 : 1);
+		if (%valA < %valB)
+			%isGreaterEqual = false;
+	}
+	return %isGreaterEqual;
+}
+
+function bigint_greater(%a, %b)
+{
+	//if (!%a.sign && %b.sign)
+	//	return true;
+	if (%a.length() > %b.length())
+		return true;
+	if (%a.length() < %b.length())
+		return false;
+	for (%i = %a.length() - 1; %i >= 0; %i--)
+	{
+		%valA = %a.get(%i) * (%a.sign ? -1 : 1);
+		%valB = %b.get(%i) * (%b.sign ? -1 : 1);
+		if (%valA > %valB)
+			return true;
+	}
+	return false;
+}
+
+function bigint_lesserequal(%a, %b)
+{
+	//if (%a.sign && !%b.sign)
+	//	return true;
+	if (%a.length() < %b.length())
+		return true;
+	if (%a.length() > %b.length())
+		return false;
+	%isLesserEqual = true;
+	for (%i = %a.length() - 1; %i >= 0; %i--)
+	{
+		%valA = %a.get(%i) * (%a.sign ? -1 : 1);
+		%valB = %b.get(%i) * (%b.sign ? -1 : 1);
+		if (%valA > %valB)
+			%isLesserEqual = false;
+	}
+	return %isLesserEqual;
+}
+
+function bigint_lesser(%a, %b)
+{
+	//if (%a.sign && !%b.sign)
+	//	return true;
+	if (%a.length() < %b.length())
+		return true;
+	if (%a.length() > %b.length())
+		return false;
+	for (%i = %a.length() - 1; %i >= 0; %i--)
+	{
+		%valA = %a.get(%i) * (%a.sign ? -1 : 1);
+		%valB = %b.get(%i) * (%b.sign ? -1 : 1);
+		if (%valA < %valB)
+			return true;
+	}
+	return false;
 }
